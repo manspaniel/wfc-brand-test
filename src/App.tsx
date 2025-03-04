@@ -73,7 +73,7 @@ function App() {
     return generator;
   }, [params, counter]);
 
-  const rules = useMemo(() => parseRules(), []);
+  const rules = useMemo(() => parseRules(params.svgCode), [params.svgCode]);
   useEffect(() => {
     generator.init();
     generator.setRules([
@@ -163,7 +163,7 @@ function App() {
                         stroke="red"
                         opacity={cell.candidates.length / (rules.length * 4)}
                       />
-                      {cell.candidates.length < 40 &&
+                      {/* {cell.candidates.length < 40 &&
                         cell.candidates.map((rule, j) => {
                           const transforms = [
                             `translate(${-rule.offset[0] * 64}px, ${
@@ -188,7 +188,7 @@ function App() {
                               }}
                             ></g>
                           );
-                        })}
+                        })} */}
                     </g>
                   );
                 }
@@ -276,7 +276,15 @@ function App() {
         <div className="flex flex-col py-2 gap-2">
           <Panel label="SVG">
             <Label>SVG Code</Label>
-            <Textarea value={params.svgCode.trim()}></Textarea>
+            <Textarea
+              value={params.svgCode.trim()}
+              onChange={(e) => {
+                setParams((p) => ({
+                  ...p,
+                  svgCode: e.currentTarget.value,
+                }));
+              }}
+            ></Textarea>
           </Panel>
           <Panel label="Layout">
             <Property label="Cols">
